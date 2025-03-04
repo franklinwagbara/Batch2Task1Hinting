@@ -1,0 +1,14 @@
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\bin\Debug\net8.0\Batch2Task1Hinting.exe
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\bin\Debug\net8.0\Batch2Task1Hinting.deps.json
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\bin\Debug\net8.0\Batch2Task1Hinting.runtimeconfig.json
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\bin\Debug\net8.0\Batch2Task1Hinting.dll
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\bin\Debug\net8.0\Batch2Task1Hinting.pdb
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.AssemblyInfoInputs.cache
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.AssemblyInfo.cs
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.csproj.CoreCompileInputs.cache
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.dll
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\refint\Batch2Task1Hinting.dll
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.pdb
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\Batch2Task1Hinting.genruntimeconfig.cache
+C:\Users\Franklin Wagbara\Documents\Turing\Production\batch2\Task1\Batch2Task1Hinting\Batch2Task1Hinting\obj\Debug\net8.0\ref\Batch2Task1Hinting.dll
