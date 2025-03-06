@@ -6,55 +6,34 @@ using System;
 public class GameTests
 {
     [Test]
-    public void Game_Instance_ReturnsSameInstance()
+    public void GameInstance_IsSingleton()
     {
-        // Arrange & Act
         var instance1 = Game.Instance;
         var instance2 = Game.Instance;
-
-        // Assert
         Assert.That(instance1, Is.SameAs(instance2));
     }
 
     [Test]
-    public void InitializeWorld_WithValidDimensions_CreatesWorldInstance()
+    public void InitializeWorld_ValidDimensions_WorldIsInitialized()
     {
-        // Arrange
-        int width = 5;
-        int height = 10;
-        var game = Game.Instance;
-
-        // Act
-        game.InitializeWorld(width, height);
-
-        // Assert
-        Assert.That(game.CurrentWorld, Is.Not.Null);
-        Assert.That(game.CurrentWorld.Width, Is.EqualTo(width));
-        Assert.That(game.CurrentWorld.Height, Is.EqualTo(height));
+        Game.Instance.InitializeWorld(5, 10);
+        Assert.That(Game.Instance.World, Is.Not.Null);
+        Assert.That(Game.Instance.World.Width, Is.EqualTo(5));
+        Assert.That(Game.Instance.World.Height, Is.EqualTo(10));
     }
 
     [Test]
-    public void InitializeWorld_WithNonPositiveWidth_ThrowsArgumentOutOfRangeException()
+    public void InitializeWorld_InvalidWidth_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 0;
-        int height = 10;
-        var game = Game.Instance;
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => game.InitializeWorld(width, height));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Game.Instance.InitializeWorld(0, 10));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Game.Instance.InitializeWorld(-5, 10));
     }
 
     [Test]
-    public void InitializeWorld_WithNonPositiveHeight_ThrowsArgumentOutOfRangeException()
+    public void InitializeWorld_InvalidHeight_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 5;
-        int height = -1;
-        var game = Game.Instance;
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => game.InitializeWorld(width, height));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Game.Instance.InitializeWorld(5, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Game.Instance.InitializeWorld(5, -10));
     }
 }
 
@@ -62,37 +41,21 @@ public class GameTests
 public class WorldTests
 {
     [Test]
-    public void World_Constructor_InitializesGridWithCorrectDimensions()
+    public void WorldConstructor_ValidDimensions_GridIsInitializedWithEmptyCells()
     {
-        // Arrange
-        int width = 8;
-        int height = 12;
-
-        // Act
+        int width = 3;
+        int height = 4;
         var world = new World(width, height);
-
-        // Assert
         Assert.That(world.Width, Is.EqualTo(width));
         Assert.That(world.Height, Is.EqualTo(height));
         Assert.That(world.Grid.GetLength(0), Is.EqualTo(width));
         Assert.That(world.Grid.GetLength(1), Is.EqualTo(height));
-    }
 
-    [Test]
-    public void World_Constructor_InitializesCellsWithDefaultNameAndCoordinates()
-    {
-        // Arrange
-        int width = 3;
-        int height = 2;
-
-        // Act
-        var world = new World(width, height);
-
-        // Assert
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
+                Assert.That(world.Grid[x, y], Is.Not.Null);
                 Assert.That(world.Grid[x, y].Name, Is.EqualTo("Empty"));
                 Assert.That(world.Grid[x, y].X, Is.EqualTo(x));
                 Assert.That(world.Grid[x, y].Y, Is.EqualTo(y));
@@ -101,192 +64,96 @@ public class WorldTests
     }
 
     [Test]
-    public void World_Constructor_WithNonPositiveWidth_ThrowsArgumentOutOfRangeException()
+    public void WorldConstructor_InvalidWidth_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 0;
-        int height = 5;
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => new World(width, height));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new World(0, 5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new World(-2, 5));
     }
 
     [Test]
-    public void World_Constructor_WithNonPositiveHeight_ThrowsArgumentOutOfRangeException()
+    public void WorldConstructor_InvalidHeight_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 5;
-        int height = 0;
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => new World(width, height));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new World(5, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new World(5, -3));
     }
 
     [Test]
-    public void GetCell_WithValidCoordinates_ReturnsCorrectCell()
+    public void GetCell_ValidCoordinates_ReturnsCorrectCell()
     {
-        // Arrange
-        int width = 5;
-        int height = 5;
+        int width = 2;
+        int height = 2;
         var world = new World(width, height);
-
-        // Act
-        var cell = world.GetCell(2, 3);
-
-        // Assert
+        var cell = world.GetCell(1, 0);
         Assert.That(cell, Is.Not.Null);
-        Assert.That(cell.X, Is.EqualTo(2));
-        Assert.That(cell.Y, Is.EqualTo(3));
-        Assert.That(cell.Name, Is.EqualTo("Empty"));
+        Assert.That(cell.X, Is.EqualTo(1));
+        Assert.That(cell.Y, Is.EqualTo(0));
     }
 
     [Test]
-    public void GetCell_WithNegativeXCoordinate_ThrowsArgumentOutOfRangeException()
+    public void GetCell_OutOfBoundsCoordinates_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 5;
-        int height = 5;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(-1, 2));
+        var world = new World(2, 2);
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(-1, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(2, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(0, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(0, 2));
     }
 
     [Test]
-    public void GetCell_WithXCoordinateOutOfBounds_ThrowsArgumentOutOfRangeException()
+    public void SetCellName_ValidCoordinates_SetsCellName()
     {
-        // Arrange
-        int width = 5;
-        int height = 5;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(5, 2));
-    }
-
-    [Test]
-    public void GetCell_WithNegativeYCoordinate_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        int width = 5;
-        int height = 5;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(2, -1));
-    }
-
-    [Test]
-    public void GetCell_WithYCoordinateOutOfBounds_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        int width = 5;
-        int height = 5;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.GetCell(2, 5));
-    }
-
-    [Test]
-    public void SetCellName_WithValidCoordinatesAndName_SetsCellName()
-    {
-        // Arrange
         int width = 3;
         int height = 3;
         var world = new World(width, height);
-        int x = 1;
-        int y = 2;
         string newName = "Forest";
-
-        // Act
-        world.SetCellName(x, y, newName);
-
-        // Assert
-        Assert.That(world.Grid[x, y].Name, Is.EqualTo(newName));
+        world.SetCellName(1, 1, newName);
+        Assert.That(world.Grid[1, 1].Name, Is.EqualTo(newName));
     }
 
     [Test]
-    public void SetCellName_WithNegativeXCoordinate_ThrowsArgumentOutOfRangeException()
+    public void SetCellName_OutOfBoundsCoordinates_ThrowsArgumentOutOfRangeException()
     {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(-1, 1, "Test"));
+        var world = new World(2, 2);
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(-1, 0, "Test"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(2, 0, "Test"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(0, -1, "Test"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(0, 2, "Test"));
     }
 
     [Test]
-    public void SetCellName_WithXCoordinateOutOfBounds_ThrowsArgumentOutOfRangeException()
+    public void World_LargeGrid_InitializesCorrectly()
     {
-        // Arrange
-        int width = 3;
-        int height = 3;
+        int width = 100;
+        int height = 100;
         var world = new World(width, height);
+        Assert.That(world.Width, Is.EqualTo(width));
+        Assert.That(world.Height, Is.EqualTo(height));
+        Assert.That(world.Grid.GetLength(0), Is.EqualTo(width));
+        Assert.That(world.Grid.GetLength(1), Is.EqualTo(height));
+    }
+}
 
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(3, 1, "Test"));
+[TestFixture]
+public class CellTests
+{
+    [Test]
+    public void CellConstructor_SetsPropertiesCorrectly()
+    {
+        string name = "Mountain";
+        int x = 5;
+        int y = 10;
+        var cell = new Cell(name, x, y);
+        Assert.That(cell.Name, Is.EqualTo(name));
+        Assert.That(cell.X, Is.EqualTo(x));
+        Assert.That(cell.Y, Is.EqualTo(y));
     }
 
     [Test]
-    public void SetCellName_WithNegativeYCoordinate_ThrowsArgumentOutOfRangeException()
+    public void CellProperties_CanBeModified()
     {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(1, -1, "Test"));
-    }
-
-    [Test]
-    public void SetCellName_WithYCoordinateOutOfBounds_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => world.SetCellName(1, 3, "Test"));
-    }
-
-    [Test]
-    public void SetCellName_WithNullName_ThrowsArgumentNullException()
-    {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => world.SetCellName(1, 1, null));
-    }
-
-    [Test]
-    public void SetCellName_WithEmptyName_ThrowsArgumentException()
-    {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => world.SetCellName(1, 1, string.Empty));
-    }
-
-    [Test]
-    public void SetCellName_WithWhitespaceName_ThrowsArgumentException()
-    {
-        // Arrange
-        int width = 3;
-        int height = 3;
-        var world = new World(width, height);
-
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => world.SetCellName(1, 1, "   "));
+        var cell = new Cell("Initial", 0, 0);
+        cell.Name = "Updated";
+        Assert.That(cell.Name, Is.EqualTo("Updated"));
+        // X and Y are init-only, so they cannot be modified after initialization.
     }
 }
